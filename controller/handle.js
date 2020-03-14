@@ -19,8 +19,8 @@ class request {
         return new Promise(async function (resolve, reject) {
             try {
                 var request = new sql.Request();
-                var first_name = req.first_name;
-                var last_name = req.last_name;
+                var FName = req.FName;
+                var LName = req.LName;
                 var faculty_id = req.faculty_id;
                 var gender = req.gender;
                 var grade = req.grade;
@@ -32,8 +32,8 @@ class request {
                 var work_status = req.work_status;
                 // sql command
                 var commandCreate = `INSERT INTO STUDENT_PROFILE
-                (first_name, last_name, faculty_id, gender, dmission_date, grade, student_status, create_by, create_date, update_by, update_date, work_status)
-                VALUES('${first_name}', '${last_name}', '${faculty_id}', '${gender}', '${currentDate}', '${grade}', '${student_status}', 
+                (FName, LName, faculty_id, gender, admission_date, grade, student_status, create_by, create_date, update_by, update_date, work_status)
+                VALUES('${FName}', '${LName}', '${faculty_id}', '${gender}', '${currentDate}', '${grade}', '${student_status}', 
                 '${create_by}', '${currentDate}', '${update_by}', '${currentDate}', '${work_status}');`
                 var resultCreate = await request.query(commandCreate); //ยิง command เข้าไปใน DB
                 let massage = {
@@ -129,25 +129,29 @@ class request {
                     logger.error(`${functionName} Please use Integer(Type of Number)`);
                     resolve`${functionName} Please use Integer(Type of Number)`
                 } else {
-                    var command = `UPDATE STUDENT_PROFILE SET grade = ${grade}, 
-                    update_by = '${update_by}',
-                    update_date = '${current_date}'
-                    WHERE id = ${id}`// sql command
-                    var result = await request.query(command); //ยิง command เข้าไปใน DB
-                    let message = {
-                        statusCode: 200,
-                        message: `update success`
+                    var commandCheckId = `SELECT * FROM STUDENT_PROFILE WHERE id = ${id}`
+                    var resultCheckId = await request.query(commandCheckId); //ยิง command เข้าไปใน DB
+                    if (resultCheckId.recordset.length != 0) {
+                        var command = `UPDATE STUDENT_PROFILE SET 
+                        grade = ${grade}, 
+                        update_by = '${update_by}',
+                        update_date = '${current_date}'
+                        WHERE id = ${id}`// sql command
+                        var result = await request.query(command); //ยิง command เข้าไปใน DB
+                        let message = {
+                            statusCode: 200,
+                            message: `update success`
+                        }
+                        resolve(message);
                     }
-                    // if (result.recordset.length != 0) resolve(message) //เช็คหา id
-                    // else {
-                    //     let messageError1 = {
-                    //         statusCode: 400,
-                    //         message: `${functionName} id not found`
-                    //     }
-                    //     logger.error(messageError1.message)
-                    //     reject(messageError1)
-                    // }
-                    resolve(message)
+                    else {
+                        let messageError1 = {
+                            statusCode: 400,
+                            message: `${functionName} id not found`
+                        }
+                        logger.error(messageError1.message)
+                        reject(messageError1)
+                    }
                 }
             } catch (error) { //ดัก error
                 let messageError2 = {
@@ -173,23 +177,29 @@ class request {
                     logger.error(`${functionName} Please use Integer(Type of Number)`);
                     resolve`${functionName} Please use Integer(Type of Number)`
                 } else {
-                    var command = `UPDATE STUDENT_PROFILE SET work_status = 'N', update_by = '${update_by}', update_date = '${current_date}' WHERE id = ${id}`// sql command
-                    var result = await request.query(command); //ยิง command เข้าไปใน DB
-                    let message = {
-                        statusCode: 200,
-                        message: `update success`
+                    var commandCheckId = `SELECT * FROM STUDENT_PROFILE WHERE id = ${id}`
+                    var resultCheckId = await request.query(commandCheckId); //ยิง command เข้าไปใน DB
+                    if (resultCheckId.recordset.length != 0) {
+                        var command = `UPDATE STUDENT_PROFILE SET 
+                        work_status = 'N', 
+                        update_by = '${update_by}', 
+                        update_date = '${current_date}' 
+                        WHERE id = ${id}`// sql command
+                        var result = await request.query(command); //ยิง command เข้าไปใน DB
+                        let message = {
+                            statusCode: 200,
+                            message: `update success`
+                        }
+                        resolve(message);
                     }
-
-                    // if (result.recordset.length != 0) resolve(message) //เช็คหา id
-                    // else {
-                    //     let messageError1 = {
-                    //         statusCode: 400,
-                    //         message: `${functionName} id not found`
-                    //     }
-                    //     logger.error(messageError1.message)
-                    //     reject(messageError1)
-                    // }
-                    resolve(message)
+                    else {
+                        let messageError1 = {
+                            statusCode: 400,
+                            message: `${functionName} id not found`
+                        }
+                        logger.error(messageError1.message)
+                        reject(messageError1)
+                    }
                 }
             } catch (error) { //ดัก error
                 let messageError2 = {

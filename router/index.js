@@ -6,8 +6,7 @@ const request = require('../controller/handle');
 //CREATE STUDENT
 app.post('/createStudent', async (req, res) => {
     try {
-        // logger.debug(req.body)
-        console.log(req.body)
+        logger.debug(req.body)
         var result = await new request().createStudent(req.body)
         res.status(201)
         res.json(result)
@@ -24,8 +23,7 @@ app.post('/createStudent', async (req, res) => {
 //GET STUDENT
 app.post('/getStudent', async (req, res) => {
     try {
-        //logger.debug(req.body);
-        console.log(req.body);
+        logger.debug(req.body);
         var result = await new request().getStudent(req.body);
         res.status(200);
         res.json(result);
@@ -41,8 +39,7 @@ app.post('/getStudent', async (req, res) => {
 
 app.post('/getAllStudent', async (req, res) => {
     try {
-        //logger.debug(req.body);
-        console.log(req.body);
+        logger.debug(req.body);
         var result = await new request().getAllStudent(req.body);
         res.status(200);
         res.json(result);
@@ -58,8 +55,7 @@ app.post('/getAllStudent', async (req, res) => {
 
 app.post('/updateGrade', async (req, res) => {
     try {
-        //logger.debug(req.body);
-        console.log(req.body);
+        logger.debug(req.body);
         var result = await new request().updateGrade(req.body);
         res.status(200);
         res.json(result);
@@ -75,8 +71,7 @@ app.post('/updateGrade', async (req, res) => {
 
 app.post('/delete', async (req, res) => {
     try {
-        //logger.debug(req.body);
-        console.log(req.body);
+        logger.debug(req.body);
         var result = await new request().delete(req.body);
         res.status(200);
         res.json(result);
