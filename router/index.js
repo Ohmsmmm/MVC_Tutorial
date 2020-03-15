@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const request = require('../controller/handle');
-// const logger = require('../util/logger.js');
+const logger = require('../util/logger.js');
 
 //CREATE STUDENT
 app.post('/createStudent', async (req, res) => {
